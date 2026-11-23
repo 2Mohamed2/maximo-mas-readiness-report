@@ -127,8 +127,9 @@ function readySql(db, prefixes) {
     return sql + " fetch first " + n + " rows only";
   }
   function blank(x) { return "nullif(ltrim(rtrim(" + x + ")), '')"; }
+  // a Java class name is package-qualified (has a dot); placeholders such as "x" or "no_class" are not classes
   function isCustom(x) {
-    var s = "(" + blank(x) + " is not null";
+    var s = "(" + blank(x) + " is not null and " + x + " like '%_._%'";
     for (var j = 0; j < pre.length; j++) s += " and " + x + " not like '" + pre[j].replace(/_/g, SS ? "[_]" : "\\_") + "%'" + (SS ? "" : " escape '\\'");
     return s + ")";
   }
